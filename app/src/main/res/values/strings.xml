@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">NS News</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
+    <string name="dummy_source_name">Source Name</string>
+    <string name="dummy_article_title">Article Title Goes Here</string>
+    <string name="dummy_article_published_at">1st july 2019</string>
+    <string name="dummy_article_desc">British Royal Marines and officials in Gibraltar have stopped a supertanker suspected of carrying crude oil to Syria, in breach of European Union sanctions, the government of Gibraltar said.r The Grace 1 vessel was halted early on Thursday by Gibraltar police…</string>
+    <string name="dummy_article_author">Sawaraj Dekhmukh</string>
+</resources>
