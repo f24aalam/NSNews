@@ -6,8 +6,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.w3students.nsnews.R;
 import com.w3students.nsnews.models.Article;
 import com.w3students.nsnews.models.ArticleSource;
@@ -42,6 +44,10 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         articleViewHolder.articlePublishedAt.setText(article.getPublishedAt());
         articleViewHolder.articleDescription.setText(article.getDescription());
         articleViewHolder.articleAuthor.setText(article.getAuthor());
+
+        Glide.with(context)
+                .load(article.getUrlToImage())
+                .into(articleViewHolder.articleImage);
     }
 
     @Override
@@ -56,6 +62,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         TextView articlePublishedAt;
         TextView articleDescription;
         TextView articleAuthor;
+        ImageView articleImage;
 
         public ArticleViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -65,6 +72,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
             articlePublishedAt = itemView.findViewById(R.id.article_published_at);
             articleDescription = itemView.findViewById(R.id.article_desc);
             articleAuthor = itemView.findViewById(R.id.article_author);
+            articleImage = itemView.findViewById(R.id.article_img);
 
         }
     }
