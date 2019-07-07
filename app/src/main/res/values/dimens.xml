@@ -7,4 +7,5 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="article_lr_mr">10dp</dimen>
     <dimen name="article_t_mr">10dp</dimen>
+    <dimen name="articel_card_elevation">5dp</dimen>
 </resources>

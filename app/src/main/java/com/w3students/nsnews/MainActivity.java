@@ -1,5 +1,7 @@
 package com.w3students.nsnews;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -16,6 +18,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.widget.ProgressBar;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -35,6 +38,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import dmax.dialog.SpotsDialog;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -42,6 +47,7 @@ public class MainActivity extends AppCompatActivity
     RecyclerView articlesView;
     ArticleAdapter articleAdapter;
     RecyclerView.LayoutManager layoutManager;
+    AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +58,8 @@ public class MainActivity extends AppCompatActivity
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -61,10 +69,18 @@ public class MainActivity extends AppCompatActivity
         articlesView = findViewById(R.id.articles_view);
         layoutManager = new LinearLayoutManager(this);
 
+        alertDialog = new SpotsDialog
+                .Builder()
+                .setContext(this)
+                .setMessage("Loading Top Headlines...")
+                .setCancelable(false)
+                .build();
+
         String url = "https://newsapi.org/v2/top-headlines?country=us&apiKey=8c836e5a02774abc9ecaae10a1d1f5f6";
         articles = new ArrayList<>();
 
 
+        alertDialog.show();
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -99,6 +115,8 @@ public class MainActivity extends AppCompatActivity
                                 articleAdapter = new ArticleAdapter(articles,MainActivity.this);
                                 articlesView.setLayoutManager(layoutManager);
                                 articlesView.setAdapter(articleAdapter);
+
+                                alertDialog.dismiss();
 
                             }
                         } catch (JSONException e) {
