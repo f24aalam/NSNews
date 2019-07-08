@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -27,6 +29,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.w3students.nsnews.adapters.ArticleAdapter;
+import com.w3students.nsnews.fragment.Everything;
+import com.w3students.nsnews.fragment.NewsSources;
+import com.w3students.nsnews.fragment.TopHeadlines;
 import com.w3students.nsnews.models.Article;
 import com.w3students.nsnews.models.ArticleSource;
 import com.w3students.nsnews.utils.VolleyRequestQueue;
@@ -43,11 +48,7 @@ import dmax.dialog.SpotsDialog;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    List<Article> articles;
-    RecyclerView articlesView;
-    ArticleAdapter articleAdapter;
-    RecyclerView.LayoutManager layoutManager;
-    AlertDialog alertDialog;
+    Fragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,72 +67,15 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        articlesView = findViewById(R.id.articles_view);
-        layoutManager = new LinearLayoutManager(this);
+        fragment = null;
+        fragment = new TopHeadlines();
 
-        alertDialog = new SpotsDialog
-                .Builder()
-                .setContext(this)
-                .setMessage("Loading Top Headlines...")
-                .setCancelable(false)
-                .build();
-
-        String url = "https://newsapi.org/v2/top-headlines?country=us&apiKey=8c836e5a02774abc9ecaae10a1d1f5f6";
-        articles = new ArrayList<>();
-
-
-        alertDialog.show();
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            if(response.getString("status").equalsIgnoreCase("ok")){
-                                JSONArray jsonArray = response.getJSONArray("articles");
-                                for(int i = 0; i < jsonArray.length(); i++){
-
-                                    Article article = new Article();
-                                    ArticleSource articleSource = new ArticleSource();
-
-                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                    JSONObject jsonSourceObject = jsonObject.getJSONObject("source");
-
-                                    articleSource.setId(jsonSourceObject.getString("id"));
-                                    articleSource.setName(jsonSourceObject.getString("name"));
-
-                                    article.setArticleSource(articleSource);
-                                    article.setAuthor(jsonObject.getString("author"));
-                                    article.setTitle(jsonObject.getString("title"));
-                                    article.setDescription(jsonObject.getString("description"));
-                                    article.setUrl(jsonObject.getString("url"));
-                                    article.setUrlToImage(jsonObject.getString("urlToImage"));
-                                    article.setPublishedAt(jsonObject.getString("publishedAt"));
-                                    article.setContent(jsonObject.getString("content"));
-
-                                    articles.add(article);
-
-                                }
-
-                                articleAdapter = new ArticleAdapter(articles,MainActivity.this);
-                                articlesView.setLayoutManager(layoutManager);
-                                articlesView.setAdapter(articleAdapter);
-
-                                alertDialog.dismiss();
-
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-
-        VolleyRequestQueue.getInstance(this).addToRequestQueue(request);
-
+        //replacing the fragment
+        if (fragment != null) {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.content_frame, fragment);
+            ft.commit();
+        }
 
     }
 
@@ -170,25 +114,35 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_home) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_tools) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        displaySelectedScreen(item.getItemId());
         return true;
     }
+
+
+    private void displaySelectedScreen(int itemId) {
+
+        //initializing the fragment object which is selected
+        switch (itemId) {
+            case R.id.nav_top_headlines:
+                fragment = new TopHeadlines();
+                break;
+            case R.id.nav_everything:
+                fragment = new Everything();
+                break;
+            case R.id.nav_news_sources:
+                fragment = new NewsSources();
+                break;
+        }
+
+        //replacing the fragment
+        if (fragment != null) {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.content_frame, fragment);
+            ft.commit();
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+    }
+
 }

@@ -21,7 +21,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     private List<Article> articles;
     private Context context;
 
-    public ArticleAdapter(List<Article> articles, Context context) {
+    public ArticleAdapter(List<Article> articles,Context context) {
         this.articles = articles;
         this.context = context;
     }
@@ -29,7 +29,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     @NonNull
     @Override
     public ArticleViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        LayoutInflater inflater = LayoutInflater.from(context);
+        LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
         View view = inflater.inflate(R.layout.article,viewGroup,false);
         return new ArticleViewHolder(view);
     }
