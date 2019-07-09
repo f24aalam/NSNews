@@ -16,7 +16,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.w3students.nsnews.MainActivity;
 import com.w3students.nsnews.R;
 import com.w3students.nsnews.adapters.ArticleAdapter;
 import com.w3students.nsnews.models.Article;
