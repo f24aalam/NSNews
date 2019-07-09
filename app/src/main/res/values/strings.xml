@@ -16,5 +16,5 @@
     <string name="menu_top_headlines">Top Headlines</string>
     <string name="menu_everything">Everything</string>
     <string name="menu_news_sources">News Sources</string>
-    <string name="title_activity_web">Full Article</string>
+    <string name="logout">Logout</string>
 </resources>
