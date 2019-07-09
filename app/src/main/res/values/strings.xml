@@ -16,7 +16,6 @@
     <string name="menu_top_headlines">Top Headlines</string>
     <string name="menu_everything">Everything</string>
     <string name="menu_news_sources">News Sources</string>
-    <string name="title_activity_login">LoginActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="logout">Logout</string>
+    <string name="title_activity_web">Article View</string>
 </resources>

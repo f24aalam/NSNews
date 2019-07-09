@@ -1,15 +1,18 @@
 package com.w3students.nsnews.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.w3students.nsnews.WebActivity;
 import com.w3students.nsnews.R;
 import com.w3students.nsnews.models.Article;
 import com.w3students.nsnews.models.ArticleSource;
@@ -36,7 +39,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
 
     @Override
     public void onBindViewHolder(@NonNull ArticleViewHolder articleViewHolder, int i) {
-        Article article = articles.get(i);
+        final Article article = articles.get(i);
         ArticleSource articleSource = article.getArticleSource();
 
         articleViewHolder.articleSourceName.setText(articleSource.getName());
@@ -44,6 +47,18 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         articleViewHolder.articlePublishedAt.setText(article.getPublishedAt());
         articleViewHolder.articleDescription.setText(article.getDescription());
         articleViewHolder.articleAuthor.setText(article.getAuthor());
+        articleViewHolder.read_more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(context, WebActivity.class);
+                intent.putExtra("url",article.getUrl());
+                intent.putExtra("title",article.getTitle());
+
+                context.startActivity(intent);
+
+            }
+        });
 
         Glide.with(context)
                 .load(article.getUrlToImage())
@@ -63,6 +78,9 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         TextView articleDescription;
         TextView articleAuthor;
         ImageView articleImage;
+        Button read_more;
+
+
 
         public ArticleViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -73,6 +91,9 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
             articleDescription = itemView.findViewById(R.id.article_desc);
             articleAuthor = itemView.findViewById(R.id.article_author);
             articleImage = itemView.findViewById(R.id.article_img);
+            read_more = itemView.findViewById(R.id.button);
+
+
 
         }
     }
