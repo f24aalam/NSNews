@@ -50,7 +50,7 @@ public class Everything extends Fragment {
         alertDialog = new SpotsDialog
                 .Builder()
                 .setContext(view.getContext())
-                .setMessage("Loading Top Headlines...")
+                .setMessage(R.string.menu_everything)
                 .setCancelable(false)
                 .build();
 

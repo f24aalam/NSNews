@@ -51,7 +51,7 @@ public class TopHeadlines extends Fragment{
         alertDialog = new SpotsDialog
                 .Builder()
                 .setContext(view.getContext())
-                .setMessage("Loading Top Headlines...")
+                .setMessage(R.string.menu_top_headlines)
                 .setCancelable(false)
                 .build();
 
