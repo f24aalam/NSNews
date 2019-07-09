@@ -18,4 +18,5 @@
     <string name="menu_news_sources">News Sources</string>
     <string name="logout">Logout</string>
     <string name="title_activity_web">Article View</string>
+    <string name="title_activity_login">Login Activity</string>
 </resources>
