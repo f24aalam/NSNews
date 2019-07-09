@@ -42,6 +42,14 @@ public class Everything extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_everything,container,false);
+        alertDialog = new SpotsDialog
+                .Builder()
+                .setContext(view.getContext())
+                .setMessage("Loading Top Headlines...")
+                .setCancelable(false)
+                .build();
+
+        alertDialog.show();
         return view;
     }
 
