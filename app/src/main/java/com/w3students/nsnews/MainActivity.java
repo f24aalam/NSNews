@@ -66,9 +66,13 @@ public class MainActivity extends AppCompatActivity
 
         navigationView.setCheckedItem(R.id.nav_top_headlines);
         View navHeaderView=navigationView.getHeaderView(0);
-        user_name=navHeaderView.findViewById(R.id.username);
-        emails=navHeaderView.findViewById(R.id.email);
-        imageView=navHeaderView.findViewById(R.id.imageViews);
+
+        GoogleSignInOptions googleSignInOptions=new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        googleApiClient=new GoogleApiClient.Builder(this)
+                .enableAutoManage(this,this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API,googleSignInOptions).build();
 
         fragment = null;
         fragment = new TopHeadlines();
@@ -161,6 +165,7 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
     }
+
     private void signOut() {
         Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(
                 new ResultCallback<Status>() {

@@ -23,8 +23,8 @@ import com.google.android.gms.common.api.ResultCallback;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 Button signin;
-    TextView user_name,emails;
-    ImageView imageView;
+//TextView user_name,emails;
+//ImageView imageView;
 private GoogleApiClient googleApiClient;
 private GoogleSignInOptions googleSignInOptions;
 private static final int REQ_CODE=9001;
@@ -33,9 +33,9 @@ private static final int REQ_CODE=9001;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        user_name=findViewById(R.id.username);
-        emails=findViewById(R.id.email);
-        imageView=findViewById(R.id.imageViews);
+//        user_name=findViewById(R.id.username);
+//        emails=findViewById(R.id.email);
+//        imageView=findViewById(R.id.imageViews);
         GoogleSignInOptions googleSignInOptions=new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
