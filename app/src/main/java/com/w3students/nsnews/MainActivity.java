@@ -274,11 +274,11 @@ public class MainActivity extends AppCompatActivity
             }
 
         }else{
-            gotoMainActivity();
+            gotoLoginActivity();
         }
     }
-    private void gotoMainActivity(){
-        Intent intent=new Intent(this,MainActivity.class);
+    private void gotoLoginActivity(){
+        Intent intent=new Intent(this,LoginActivity.class);
         startActivity(intent);
     }
 
