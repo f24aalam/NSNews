@@ -1,5 +1,6 @@
 package com.w3students.nsnews;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -45,7 +46,10 @@ public class MainActivity extends AppCompatActivity
     private GoogleApiClient googleApiClient;
     private GoogleSignInOptions googleSignInOptions;
 
+    NavigationView navigationView;
 
+
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,19 +57,23 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+//        user_name = findViewById(R.id.username);
+//        emails = findViewById(R.id.email);
 
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+
+        navigationView = findViewById(R.id.nav_view);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
         navigationView.setNavigationItemSelectedListener(this);
 
         navigationView.setCheckedItem(R.id.nav_top_headlines);
-        View navHeaderView=navigationView.getHeaderView(0);
+        View navHeaderView = navigationView.getHeaderView(0);
 
         GoogleSignInOptions googleSignInOptions=new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -73,6 +81,8 @@ public class MainActivity extends AppCompatActivity
         googleApiClient=new GoogleApiClient.Builder(this)
                 .enableAutoManage(this,this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API,googleSignInOptions).build();
+
+        imageView = navHeaderView.findViewById(R.id.avatar_view);
 
         fragment = null;
         fragment = new TopHeadlines();
@@ -189,6 +199,43 @@ public class MainActivity extends AppCompatActivity
         finish();
 
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        OptionalPendingResult<GoogleSignInResult> opr= Auth.GoogleSignInApi.silentSignIn(googleApiClient);
+        if(opr.isDone()){
+            GoogleSignInResult result=opr.get();
+            handleSignInResult(result);
+        }else{
+            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
+                @Override
+                public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
+                    handleSignInResult(googleSignInResult);
+                }
+            });
+        }
+    }
+    private void handleSignInResult(GoogleSignInResult result){
+        if(result.isSuccess()){
+            GoogleSignInAccount account=result.getSignInAccount();
+//            user_name.setText(account.getDisplayName());
+//            emails.setText(account.getEmail());
+            try{
+                Glide.with(this).load(account.getPhotoUrl()).into(imageView);
+            }catch (NullPointerException e){
+                Toast.makeText(getApplicationContext(),"image not found",Toast.LENGTH_LONG).show();
+            }
+
+        }else{
+            gotoMainActivity();
+        }
+    }
+    private void gotoMainActivity(){
+        Intent intent=new Intent(this,MainActivity.class);
+        startActivity(intent);
+    }
+
 
 
     @Override
