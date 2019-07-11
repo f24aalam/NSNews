@@ -50,7 +50,7 @@ public class NewsSources extends Fragment {
         alertDialog = new SpotsDialog
                 .Builder()
                 .setContext(view.getContext())
-                .setMessage(R.string.menu_top_headlines)
+                .setMessage(R.string.menu_news_sources)
                 .setCancelable(false)
                 .build();
 

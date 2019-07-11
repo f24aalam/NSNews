@@ -266,8 +266,11 @@ public class MainActivity extends AppCompatActivity
                     }
                 }
 
-                Picasso.with(this).load(account.getPhotoUrl()).resize(210,200).transform(new CircleTransform()).into(imageView);
-
+                if (account.getPhotoUrl() == null){
+                    Picasso.with(this).load(R.drawable.avatar).resize(200, 200).transform(new CircleTransform()).into(imageView);
+                }else {
+                    Picasso.with(this).load(account.getPhotoUrl()).resize(200, 200).transform(new CircleTransform()).into(imageView);
+                }
 
             }catch (NullPointerException e){
                 Toast.makeText(getApplicationContext(),"image not found",Toast.LENGTH_LONG).show();
