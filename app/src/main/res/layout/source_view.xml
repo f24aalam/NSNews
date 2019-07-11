@@ -31,17 +31,15 @@
                 android:padding="2dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:text="general" />
 
-            <TextView
+            <ImageView
                 android:id="@+id/source_country"
-                android:padding="2dp"
-                android:gravity="right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="us" />
+                android:layout_width="80dp"
+                android:layout_height="45dp"/>
+
         </LinearLayout>
 
         <TextView

@@ -6,8 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 import com.w3students.nsnews.R;
 import com.w3students.nsnews.models.Source;
 
@@ -17,6 +22,7 @@ public class SourceAdapter extends RecyclerView.Adapter <SourceAdapter.SourceVie
 
     private List<Source> sources;
     private Context context;
+    String countryFlags = "https://www.countryflags.io/";
 
     public SourceAdapter(List<Source> sources, Context context) {
         this.sources = sources;
@@ -35,7 +41,8 @@ public class SourceAdapter extends RecyclerView.Adapter <SourceAdapter.SourceVie
     public void onBindViewHolder(@NonNull SourceViewHolder sourceViewHolder, int i) {
         sourceViewHolder.sourceName.setText(sources.get(i).getName());
         sourceViewHolder.sourceCategory.setText(sources.get(i).getCategory());
-        sourceViewHolder.sourceCountry.setText(sources.get(i).getCountry());
+        Glide.with(context).load(countryFlags+sources.get(i).getCountry()+"/flat/64.png").into(sourceViewHolder.sourceCountry);
+        System.out.println(countryFlags+sources.get(i).getCountry()+"/flat/64.png");
         sourceViewHolder.sourceDescription.setText(sources.get(i).getDescription());
     }
 
@@ -45,7 +52,8 @@ public class SourceAdapter extends RecyclerView.Adapter <SourceAdapter.SourceVie
     }
 
     public class SourceViewHolder extends RecyclerView.ViewHolder {
-        TextView sourceName,sourceCategory,sourceCountry,sourceDescription;
+        TextView sourceName,sourceCategory,sourceDescription;
+        ImageView sourceCountry;
         public SourceViewHolder(@NonNull View itemView) {
             super(itemView);
             sourceName = itemView.findViewById(R.id.source_name);

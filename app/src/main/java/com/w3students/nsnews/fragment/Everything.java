@@ -89,7 +89,7 @@ public class Everything extends Fragment {
 
                                 ArticleAdapter adapter = new ArticleAdapter(articles, view.getContext() );
                                 articleList.setAdapter(adapter);
-                                articleList.setLayoutManager(new LinearLayoutManager(new AppCompatActivity()));
+                                articleList.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
                                 alertDialog.dismiss();
                             }
