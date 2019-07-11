@@ -1,6 +1,12 @@
 package com.w3students.nsnews;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapShader;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Shader;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -20,7 +26,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -30,10 +35,11 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.squareup.picasso.Picasso;
 import com.w3students.nsnews.fragment.Everything;
 import com.w3students.nsnews.fragment.NewsSources;
-import com.w3students.nsnews.fragment.Signout;
 import com.w3students.nsnews.fragment.TopHeadlines;
+import com.squareup.picasso.Transformation;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
@@ -45,7 +51,10 @@ public class MainActivity extends AppCompatActivity
     private GoogleApiClient googleApiClient;
     private GoogleSignInOptions googleSignInOptions;
 
+    NavigationView navigationView;
 
+
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,19 +62,23 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+//        user_name = findViewById(R.id.username);
+//        emails = findViewById(R.id.email);
 
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+
+        navigationView = findViewById(R.id.nav_view);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
         navigationView.setNavigationItemSelectedListener(this);
 
         navigationView.setCheckedItem(R.id.nav_top_headlines);
-        View navHeaderView=navigationView.getHeaderView(0);
+        View navHeaderView = navigationView.getHeaderView(0);
 
         GoogleSignInOptions googleSignInOptions=new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -73,6 +86,10 @@ public class MainActivity extends AppCompatActivity
         googleApiClient=new GoogleApiClient.Builder(this)
                 .enableAutoManage(this,this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API,googleSignInOptions).build();
+
+        imageView = navHeaderView.findViewById(R.id.avtar_view);
+        user_name=navHeaderView.findViewById(R.id.username);
+        emails=navHeaderView.findViewById(R.id.email);
 
         fragment = null;
         fragment = new TopHeadlines();
@@ -190,10 +207,87 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        OptionalPendingResult<GoogleSignInResult> opr= Auth.GoogleSignInApi.silentSignIn(googleApiClient);
+        if(opr.isDone()){
+            GoogleSignInResult result=opr.get();
+            handleSignInResult(result);
+        }else{
+            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
+                @Override
+                public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
+                    handleSignInResult(googleSignInResult);
+                }
+            });
+        }
+    }
+    private void handleSignInResult(GoogleSignInResult result){
+        if(result.isSuccess()){
+            GoogleSignInAccount account=result.getSignInAccount();
+            user_name.setText(account.getDisplayName());
+            emails.setText(account.getEmail());
+            try{
+               // Glide.with(this).load(account.getPhotoUrl()).into(imageView);
+                //Picasso.with(this).load(account.getPhotoUrl()).into(imageView);
+                class CircleTransform implements Transformation {
+                    @Override
+                    public Bitmap transform(Bitmap source) {
+                        int size = Math.min(source.getWidth(), source.getHeight());
+
+                        int x = (source.getWidth() - size) / 2;
+                        int y = (source.getHeight() - size) / 2;
+
+                        Bitmap squaredBitmap = Bitmap.createBitmap(source, x, y, size, size);
+                        if (squaredBitmap != source) {
+                            source.recycle();
+                        }
+
+                        Bitmap bitmap = Bitmap.createBitmap(size, size, source.getConfig());
+
+                        Canvas canvas = new Canvas(bitmap);
+                        Paint paint = new Paint();
+                        BitmapShader shader = new BitmapShader(squaredBitmap,
+                                Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+                        paint.setShader(shader);
+                        paint.setAntiAlias(true);
+
+                        float r = size / 2f;
+                        canvas.drawCircle(r, r, r, paint);
+
+                        squaredBitmap.recycle();
+                        return bitmap;
+                    }
+
+                    @Override
+                    public String key() {
+                        return "circle";
+                    }
+                }
+
+                Picasso.with(this).load(account.getPhotoUrl()).resize(210,200).transform(new CircleTransform()).into(imageView);
+
+
+            }catch (NullPointerException e){
+                Toast.makeText(getApplicationContext(),"image not found",Toast.LENGTH_LONG).show();
+            }
+
+        }else{
+            gotoLoginActivity();
+        }
+    }
+    private void gotoLoginActivity(){
+        Intent intent=new Intent(this,LoginActivity.class);
+        startActivity(intent);
+    }
+
+
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
+
 
 }
