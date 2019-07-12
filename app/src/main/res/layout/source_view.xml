@@ -16,9 +16,11 @@
         <TextView
             android:id="@+id/source_name"
             android:padding="5dp"
-            android:textSize="16sp"
+            android:textSize="25sp"
+            android:textAppearance="@style/CardView.Dark"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
             android:text="ABC News" />
 
         <LinearLayout
@@ -26,27 +28,49 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <TextView
+            <Button
                 android:id="@+id/source_category"
+                android:layout_width="32dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="7dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/internal_buttons"
                 android:padding="2dp"
+                android:text="general"
+                android:textColor="#ffffff" />
+
+            <TextView
+                android:id="@+id/source_country"
+                android:padding="2dp"
+                android:gravity="right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:text="general" />
-
-            <ImageView
-                android:id="@+id/source_country"
-                android:layout_width="80dp"
-                android:layout_height="45dp"/>
-
+                android:textAppearance="@style/CardView.Dark"
+                android:text="us" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/source_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:textSize="14dp"
+            android:layout_marginTop="15dp"
+            android:textAppearance="@style/CardView.Dark"
             android:text="Your trusted source for breaking news, analysis, exclusive interviews, headlines, and videos at ABCNews.com." />
+
+        <Button
+            android:layout_width="109dp"
+            android:layout_height="34dp"
+            android:layout_gravity="end"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/internal_buttons"
+            android:text="view"
+            android:textColor="#ffffff" />
 
     </LinearLayout>
 
