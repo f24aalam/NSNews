@@ -19,4 +19,6 @@
     <string name="logout">Logout</string>
     <string name="title_activity_web">Article View</string>
     <string name="title_activity_login">Login Activity</string>
+    <string name="title_activity_main2_filter">Main2ActivityFilter</string>
+    <string name="title_activity_main2__filter">Main2Activity_Filter</string>
 </resources>

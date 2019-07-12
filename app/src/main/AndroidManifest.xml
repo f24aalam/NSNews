@@ -13,6 +13,10 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ArticleActivity"></activity>
         <activity
+            android:name=".FilterActivity"
+            android:label="@string/title_activity_main2__filter"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".WebActivity"
             android:label="@string/title_activity_web"
             android:parentActivityName=".MainActivity"
