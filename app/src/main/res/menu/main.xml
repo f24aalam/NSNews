@@ -4,7 +4,5 @@
     <item
         android:id="@+id/action_filter"
         android:orderInCategory="100"
-        android:title="filter"
-
-        />
+        android:title="Filter" />
 </menu>
