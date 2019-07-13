@@ -32,7 +32,6 @@ import dmax.dialog.SpotsDialog;
 
 public class NewsSources extends Fragment {
 
-
     RecyclerView sourceList;
     List<Source> sources;
     AlertDialog alertDialog;

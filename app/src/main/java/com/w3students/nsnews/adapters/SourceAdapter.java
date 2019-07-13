@@ -8,14 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.squareup.picasso.Picasso;
 import com.w3students.nsnews.ArticleActivity;
 import com.w3students.nsnews.R;
+import com.w3students.nsnews.WebActivity;
 import com.w3students.nsnews.models.Source;
 
 import java.util.List;
@@ -24,6 +23,7 @@ public class SourceAdapter extends RecyclerView.Adapter <SourceAdapter.SourceVie
 
     private List<Source> sources;
     private Context context;
+    Intent intent;
     String countryFlags = "https://www.countryflags.io/";
 
     public SourceAdapter(List<Source> sources, Context context) {
@@ -47,12 +47,20 @@ public class SourceAdapter extends RecyclerView.Adapter <SourceAdapter.SourceVie
         sourceViewHolder.sourceCountry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, ArticleActivity.class);
+                intent = new Intent(context, ArticleActivity.class);
                 intent.putExtra("countryCode",sources.get(i).getCountry());
                 context.startActivity(intent);
             }
         });
         sourceViewHolder.sourceDescription.setText(sources.get(i).getDescription());
+        sourceViewHolder.viewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intent = new Intent(view.getContext(), WebActivity.class);
+                intent.putExtra("url",sources.get(i).getUrl());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -63,12 +71,14 @@ public class SourceAdapter extends RecyclerView.Adapter <SourceAdapter.SourceVie
     public class SourceViewHolder extends RecyclerView.ViewHolder {
         TextView sourceName,sourceCategory,sourceDescription;
         ImageView sourceCountry;
+        Button viewButton;
         public SourceViewHolder(@NonNull View itemView) {
             super(itemView);
             sourceName = itemView.findViewById(R.id.source_name);
             sourceCategory = itemView.findViewById(R.id.source_category);
             sourceCountry = itemView.findViewById(R.id.source_country);
             sourceDescription = itemView.findViewById(R.id.source_description);
+            viewButton = itemView.findViewById(R.id.view_btn);
         }
     }
 }
